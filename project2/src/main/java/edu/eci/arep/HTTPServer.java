@@ -76,9 +76,11 @@ public class HTTPServer {
         serverSocket.close();
     }
     /**
-     * This method will find 
-     * @param inputString
-     * @return
+     * This method will find the boundaries part in the response finding the name of the file of it
+     * so it can be search in the path that is has been selcted where the files will be located
+     * @param inputString is te receive respons where is the name of the file
+     * @return it returns the html where the file is show depending the type of the file, also
+     * uses another mehthod where is search the type
      */
     public static String findBoundaries(String inputString) {
         String[] parts = inputString.split(";");
@@ -92,19 +94,21 @@ public class HTTPServer {
                 }
             }
         }
-        String path = "project2\\\\target\\\\resource\\\\";
-        System.out.println("Filename: " + "/" + filename);
+        String path = "project2\\\\src\\\\main\\\\resource\\\\";
         return getTheArchive(filename, path);
     }
-
+    /**
+     * this method have the mission to getting the correct html using the extension of the file
+     * the important part is that it uses a switch thinking in possibility of extension 
+     * @param filename is the name of the file
+     * @param path is the setted directory where the method will search the file
+     * @return returns the html using another method depending in the extension of the file
+     */
     public static String getTheArchive(String filename, String path) {
         String completePath = path + filename;
         file = new File(completePath);
         int extensionIndex = filename.lastIndexOf(".");
         String type = extensionIndex != -1 ? filename.substring(extensionIndex + 1) : null;
-        File test = new File("project2\\target\\resource\\home.html");
-        System.out.println(test);
-        System.out.println(test.exists());
         if (file.exists()) {
             System.out.println("Existe");
             try{
@@ -125,10 +129,10 @@ public class HTTPServer {
                     return toImage(file,type);
                 
                 case "jpeg":
-                    return toImage(test, type);
+                    return toImage(file, type);
 
                 case "png":
-                    return toImage(test, type);
+                    return toImage(file, type);
             }
             }catch(IOException e){
                 e.printStackTrace();
@@ -137,16 +141,24 @@ public class HTTPServer {
         } else {
             System.out.println("NO existe");
         }
-        return "Si";
+        return "404";
     }
-
+    /**
+     * This method its used to present a image file, the image files are made intro base64 
+     * resource : https://es.stackoverflow.com/questions/8334/porque-el-tama%C3%B1o-de-una-imagen-codificada-en-base64-es-diferente-al-original
+     * 
+     * @param file
+     * @param type if is jpg,png etc
+     * @return the HTML wwith the image if the image is big it will be a lit of bit slow
+     * @throws IOException
+     */
     public static String toImage(File file, String type) throws IOException{
         byte[] bytes = Files.readAllBytes(file.toPath());
         String base64 = Base64.getEncoder().encodeToString(bytes);
         return "HTTP/1.1 200 OK\r\n"
                 + "Content-Type: text/"+ type + "\r\n"
                 + "\r\n"
-                + "<img src=\"data:image/" + type + ";base64," + base64 + "\">";
+                + "<center><img src=\"data:image/" + type + ";base64," + base64 + "\"></center>";
     }
 
     public static String toHTML(File file) throws IOException {
@@ -154,7 +166,7 @@ public class HTTPServer {
         return "HTTP/1.1 200 OK\r\n"
                 + "Content-Type: text/html\r\n"
                 + "\r\n"
-                + body;
+                + "<center>" + body + "</center>";
     }
 
     public static String toCSS(File file) throws IOException{
@@ -162,7 +174,7 @@ public class HTTPServer {
         return "HTTP/1.1 200 OK\r\n"
                 + "Content-Type: text/\r\n"
                 + "\r\n"
-                + body;
+                + "<center>"+body+"</center>";
     }
 
     public static String toJs(File file)throws IOException{
@@ -170,9 +182,14 @@ public class HTTPServer {
         return "HTTP/1.1 200 OK\r\n"
                 + "Content-Type: application/javascript\r\n"
                 + "\r\n"
-                + body;
+                + "<center>"+body+"</center>";
     }
-
+    /**
+     * This method re write the file into a line by line String Builder
+     * @param file
+     * @return the file components in a StringBuilder
+     * @throws IOException
+     */
     public static StringBuilder fromArchiveToString(File file) throws IOException{
         StringBuilder body = new StringBuilder();
 
