@@ -1,14 +1,14 @@
-# LABORATORIO 2 AREP 2023-1
+# LABORATORIO 2 AREP 2023-2
 ## Hecho Por : David Eduardo Valencia
 
 Este Proyecto fue realizado con el fin de crear una aplicación web que use archivos alojados en el disco local de la maquina
 
 ## Instalación
 Para instalar este proyecto basta con hacerle `git clone` o descargar el archivo zip de el mismo.\
-Una vez instalado se debe de tener en cuenta que los archivos se encuentran en el siguiente directorio : [Archivos](project2/src/main/resource/), si desea poner archivos ahi es el lugar.\
+Una vez instalado se debe de tener en cuenta que los archivos se encuentran en el siguiente directorio : [Archivos de Recursos](project2/src/main/resource/), si desea poner archivos ahi es el lugar.\
 En cuanto a la ejecución solo se requiere hacer un `mvn package` dentro del [directorio](project2/) y luego ejecutando el [Archivo](project2/src/main/java/edu/eci/arep/HTTPServer.java).
 
-Siempre se debe de seleccionar un archivo que se encuentre en el [Archivos](project2/src/main/resource/) 
+Siempre se debe de seleccionar un archivo que se encuentre en el [Archivo de Recursos](project2/src/main/resource/) 
 
 ## Arquitectura
 La aplicacion funciona como un RES en donde a travez de un metodo Post se obtiene la informacion obtenida este RES funciona abriendo un URL /upload de donde se obtendra el nombre del archivo en un content-type
