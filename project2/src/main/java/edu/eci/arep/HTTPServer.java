@@ -172,7 +172,7 @@ public class HTTPServer {
     public static String toCSS(File file) throws IOException{
         StringBuilder body = fromArchiveToString(file);
         return "HTTP/1.1 200 OK\r\n"
-                + "Content-Type: text/\r\n"
+                + "Content-Type: text/css\r\n"
                 + "\r\n"
                 + "<center>"+body+"</center>";
     }
